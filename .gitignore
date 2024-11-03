@@ -2,3 +2,4 @@ password.config
 static/images_archive
 flask_session
 .venv
+__pycache__
