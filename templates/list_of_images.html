@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<body bgcolor="#000000" text="white">
+
+	{% for n in names %}
+	<p>{{ n }}</p>
+	{% endfor  %}
+
+	<title>Download File</title>
+        <h1>Download</h1>
+        <form method=post>
+            <input type=text name=user_input>
+            <input type=submit value=Download>
+        </form>
+	
+</body>
+</html>
+

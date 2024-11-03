@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<body bgcolor=#000000 text=white>
+
+	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image">
+	
+	<form method=post>
+		<input type=submit value=reset name=back_button>
+		<input type=submit value='make grey' name=submit_button>
+		<input type=submit value=cut name=cut_button>
+		<input type=submit value=flip name=flip_button>
+	</form>
+
+</body>
+</html>
+

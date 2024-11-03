@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+	<header>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src={{ url_for('static', filename='js/mouse.js') }}></script>
+	</header>
+
+<body bgcolor=#000000 text=white>
+
+	<img id=IMG src='{{ url_for('static', filename = 'images/' +  name) }}' alt="image">
+	
+	<p> Click twice on the image above to cut it by 2 points </p>
+
+</body>
+</html>
+
