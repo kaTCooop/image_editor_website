@@ -12,6 +12,9 @@ from datetime import timedelta
 UPLOAD_FOLDER = '/root/projects/image_editor_site/static'
 ALLOWED_EXTENSIONS = {'jpeg', 'png', 'jpg'}
 
+if os.path.isdir(os.path.join(UPLOAD_FOLDER, 'images')) is False:
+    os.makedirs(os.path.join(UPLOAD_FOLDER, 'images'))
+
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 
