@@ -109,9 +109,11 @@ def edit_image(name, cut = 'False'):
         elif 'cut_button' in request.form:
             return redirect(url_for('edit_image', name = name, cut = 'cut'))
         
+        # cutting image by 2 points
         elif 'value1' and 'value2' in request.form:
             session['changed'] = True
             session.modified = True
+
             x, y = request.form['value1'].split(';')
             point_1 = x + ';' + y
             x, y = request.form['value2'].split(';')
@@ -192,7 +194,8 @@ def edit_image(name, cut = 'False'):
             '''
     
     image.save(path)
-    
+   
+   # display cutted image
     if cut == 'cut':
         print('rendered cut')
         
