@@ -1,9 +1,16 @@
 <!doctype html>
+<html>
 <body bgcolor=#000000 text=white>
-	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image">
-	<form method=post>
-		<input type=submit value=reset name=back_button>
+	
+	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%'>		
+	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image" style='transform: translate(-50%, -70%)'>
+
+	<form method=post style='position: relative; transform: translate(-50%, 0)'>
+	<input type=submit value=reset name=back_button>
 	</form>
+	
+	</div>
 
 </body>
+</html>
 
