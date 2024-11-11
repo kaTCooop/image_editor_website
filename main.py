@@ -169,8 +169,19 @@ def edit_image(name, cut = 'False'):
         elif 'flip_button' in request.form:
             session['changed'] = True
             session.modified = True
+            
             img2 = image.rotate(180)
             img2.save(path)
+            
+            return redirect(url_for('edit_image', name=name))
+
+        elif 'mirror_button' in request.form:
+            session['changed'] = True
+            session.modified = True
+            
+            img2 = ImageOps.mirror(image)
+            img2.save(path)
+            
             return redirect(url_for('edit_image', name=name))
 
         else:
