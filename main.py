@@ -112,6 +112,7 @@ def edit_image(name, cut = 'False'):
         elif 'value1' and 'value2' in request.form:
             session['changed'] = True
             session.modified = True
+            
             x, y = request.form['value1'].split(';')
             point_1 = x + ';' + y
             x, y = request.form['value2'].split(';')
@@ -146,7 +147,7 @@ def edit_image(name, cut = 'False'):
                 img2.save(new_path)
             
             except ValueError:
-                return '<p>Empty image</p>'
+                return '<body bgcolor=#000000 text=white>Empty image</body>'
 
             return render_template('download_image.html', name = new_name)
 
