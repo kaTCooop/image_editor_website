@@ -1,15 +1,17 @@
 <!doctype html>
 <html>
-	<header>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script src={{ url_for('static', filename='js/mouse.js') }}></script>
-	</header>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src={{ url_for('static', filename='js/mouse.js') }}></script>
+</head>
+
 
 <body bgcolor=#000000 text=white>
-
-	<img id=IMG src='{{ url_for('static', filename = 'images/' +  name) }}' alt="image">
 	
-	<p> Click twice on the image above to cut it by 2 points </p>
+	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%'>		
+	<img id=IMG src='{{ url_for('static', filename = 'images/' + name) }}' alt="image" style='transform: translate(-50%, -70%)'>
+	<p style='position: relative; transform: translate(-50%, -1350%)'> Click twice on the image above to cut it by 2 points </p>
+	</div>
 
 </body>
 </html>

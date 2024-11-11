@@ -1,16 +1,20 @@
 <!doctype html>
 <html>
 <body bgcolor=#000000 text=white>
-
-	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image">
 	
-	<form method=post>
+	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%'>	
+	
+	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image" style='transform: translate(-50%, -70%)'>
+	
+	<form method=post style='position: relative; transform: translate(-50%, -1150%)'>
 		<input type=submit value=reset name=back_button>
 		<input type=submit value='make grey' name=submit_button>
 		<input type=submit value=cut name=cut_button>
 		<input type=submit value=flip name=flip_button>
 		<input type=submit value=mirror name=mirror_button>
 	</form>
+
+	</div>
 
 </body>
 </html>

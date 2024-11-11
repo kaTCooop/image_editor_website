@@ -107,7 +107,7 @@ def edit_image(name, cut = 'False'):
                 return redirect(url_for('edit_image', name = name))
 
         elif 'cut_button' in request.form:
-            return redirect(url_for('edit_image', name = name, cut = 'True'))
+            return redirect(url_for('edit_image', name = name, cut = 'cut'))
         
         elif 'value1' and 'value2' in request.form:
             session['changed'] = True
@@ -193,7 +193,7 @@ def edit_image(name, cut = 'False'):
     
     image.save(path)
     
-    if cut == 'True':
+    if cut == 'cut':
         print('rendered cut')
         
         return render_template('cut.html', name = name)
