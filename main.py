@@ -123,8 +123,8 @@ def edit_image(name, cut = 'False'):
     
             new_name = name[:-format_len] + '_cut' + '.' +  format
             new_path = UPLOAD_FOLDER + '/images/' + new_name
-            last_point = int(point_1.split(';')[0]), int(point_1.split(';')[1])
-            current_point = int(point_2.split(';')[0]), int(point_2.split(';')[1])
+            last_point = float(point_1.split(';')[0]), float(point_1.split(';')[1])
+            current_point = float(point_2.split(';')[0]), float(point_2.split(';')[1])
 
             if last_point[1] < current_point[1]:
                 
