@@ -4,15 +4,52 @@
 	
 	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%'>	
 	
-	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image" style='transform: translate(-50%, -70%)'>
+	<img id=IMG src='{{ url_for('static', filename = 'images/' + name) }}' alt="image" style='transform: translate(-50%, -70%)'>
 	
-	<form method=post style='position: relative; transform: translate(-50%, -1150%)'>
+	
+	<form id=form method=post>
 		<input type=submit value=reset name=back_button>
 		<input type=submit value='make grey' name=submit_button>
 		<input type=submit value=cut name=cut_button>
 		<input type=submit value=flip name=flip_button>
 		<input type=submit value=mirror name=mirror_button>
 	</form>
+
+	<script>
+		var height = {{ height }}
+		var dif = height * 0.7
+		
+		if (height <= 250) {
+			var margin = -200
+		}
+
+		else if (height > 250 && height <= 300) {
+			var margin = -240
+		}
+
+		else if (height > 300 && height <= 350) {
+			var margin = -270
+		}
+
+		else if (height > 350 && height <= 450) {
+			var margin = -370
+		} 
+
+		else {
+			var margin = -450
+		}
+
+		var coordinates = - dif + height + margin
+		var translateCoordinates = `-50%, ${coordinates}px`
+
+		console.log(translateCoordinates)
+		console.log("diff " + String(dif))
+		console.log("height " + String(height))
+		console.log("margin " + String(margin))
+
+		form = document.getElementById('form')
+		form.style.transform = `translate(${translateCoordinates})`
+	</script>
 
 	</div>
 

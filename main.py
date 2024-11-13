@@ -142,7 +142,7 @@ def edit_image(name, cut = 'False'):
                 else:
                     coordinates = (current_point[0], current_point[1], last_point[0], last_point[1])
 
-            img2 = image.crop(coordinates)
+            img2 = ImageOps.contain(image.crop(coordinates), (512, 512))
 
             try:
                 img2.save(new_path)
@@ -200,8 +200,12 @@ def edit_image(name, cut = 'False'):
         print('rendered cut')
         
         return render_template('cut.html', name = name)
+    
+    # calculating height of our image
+    img = Image.open(path)
+    width, height = img.size
 
-    return render_template('edit.html', name = name)
+    return render_template('edit.html', name = name, height = height)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
