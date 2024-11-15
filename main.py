@@ -32,26 +32,6 @@ def allowed_file(filename):
 @app.route('/download/<name>', methods = ['GET', 'POST'])
 def download_file(name):
 
-    # if request.method == 'POST':
-
-        # if 'back_button' in request.form:
-            
-            # if 'changed' in session:
-                
-                # if os.path.exists(path):
-                   # os.remove(path)
-
-                # origin_image = Image.open(session['origin_path'])
-                # origin_image.save(path)
-                # session.clear()
-                # return redirect(url_for('edit_image', name=name))
-
-            # else:
-                # return redirect(url_for('edit_image', name=name))
-
-    # else:
-        # return redirect(url_for('hello_world'))
-
     path = UPLOAD_FOLDER + '/images/' + name
     i = Image.open(path)
 
