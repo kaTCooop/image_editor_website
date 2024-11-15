@@ -1,8 +1,7 @@
 import os
 
-from flask import Flask, url_for, render_template, request, redirect, flash, session
+from flask import Flask, url_for, render_template, request, redirect, flash, session, send_file
 from flask_session import Session
-from markupsafe import escape
 from werkzeug.utils import secure_filename
 from time import sleep
 from PIL import Image, ImageOps
@@ -96,8 +95,6 @@ def edit_image(name, cut = 'False'):
                 session['greyed'] = True
                 print(session)
 
-                # new_name = name[:-format_len] + '_grey' + '.' +  format
-                # new_path = UPLOAD_FOLDER + '/images/' + new_name
                 image.convert('L').save(path)
                 session.modified = True
                 return redirect(url_for('edit_image', name = name))
@@ -120,10 +117,10 @@ def edit_image(name, cut = 'False'):
 
             print(point_1 + ' ' + point_2)
     
-            new_name = name[:-format_len] + '_cut' + '.' +  format
+            new_name = name[:-format_len+1] + '_cut' + '.' +  format
             new_path = UPLOAD_FOLDER + '/images/' + new_name
-            last_point = int(point_1.split(';')[0]), int(point_1.split(';')[1])
-            current_point = int(point_2.split(';')[0]), int(point_2.split(';')[1])
+            last_point = float(point_1.split(';')[0]), float(point_1.split(';')[1])
+            current_point = float(point_2.split(';')[0]), float(point_2.split(';')[1])
 
             if last_point[1] < current_point[1]:
                 
@@ -185,6 +182,17 @@ def edit_image(name, cut = 'False'):
             
             return redirect(url_for('edit_image', name=name))
 
+        elif 'download_button' in request.form:
+            session['changed'] = True
+            session.modified = True
+
+            return send_file(path, as_attachment = True, mimetype = 'image')
+
+        elif 'download_cut_button' in request.form:
+            new_name = name[:-format_len+1] + '_cut' + '.' +  format
+            return send_file(UPLOAD_FOLDER + '/images/' + new_name, as_attachment = True, \
+                    mimetype = 'image', download_name = name)
+
         else:
             return '''
             <body bgcolor=#000000 text=white>
@@ -204,22 +212,27 @@ def edit_image(name, cut = 'False'):
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+        
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
+
         file = request.files['file']
+        
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
+        
         if file and allowed_file(file.filename):
             session.clear()
             session.modified = True
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'images' ,filename))
             return redirect(url_for('edit_image', name=filename))
+    
     return '''
         <!doctype html>
         <body bgcolor=#000000 text=white>
