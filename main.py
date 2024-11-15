@@ -54,7 +54,13 @@ def download_file(name):
 
     path = UPLOAD_FOLDER + '/images/' + name
     i = Image.open(path)
-    i = ImageOps.contain(i, (512, 512))
+
+    if 'changed' not in session:
+        i = ImageOps.contain(i, (512, 512))
+    
+    else:
+        i = ImageOps.contain(i, (256, 256))
+
     i.save(path)
     return render_template('download_image.html', name = name)
 
@@ -104,8 +110,9 @@ def edit_image(name, cut = 'False'):
                 return redirect(url_for('edit_image', name = name))
 
         elif 'cut_button' in request.form:
-            return redirect(url_for('edit_image', name = name, cut = 'True'))
+            return redirect(url_for('edit_image', name = name, cut = 'cut'))
         
+        # cutting image by 2 points
         elif 'value1' and 'value2' in request.form:
             session['changed'] = True
             session.modified = True
@@ -138,7 +145,7 @@ def edit_image(name, cut = 'False'):
                 else:
                     coordinates = (current_point[0], current_point[1], last_point[0], last_point[1])
 
-            img2 = image.crop(coordinates)
+            img2 = ImageOps.contain(image.crop(coordinates), (512, 512))
 
             try:
                 img2.save(new_path)
@@ -201,13 +208,18 @@ def edit_image(name, cut = 'False'):
             '''
     
     image.save(path)
-    
-    if cut == 'True':
+   
+   # display cutted image
+    if cut == 'cut':
         print('rendered cut')
         
         return render_template('cut.html', name = name)
+    
+    # calculating height of our image
+    img = Image.open(path)
+    width, height = img.size
 
-    return render_template('edit.html', name = name)
+    return render_template('edit.html', name = name, height = height)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():

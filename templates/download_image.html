@@ -1,10 +1,18 @@
 <!doctype html>
+<html>
 <body bgcolor=#000000 text=white>
+	
+	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%; transform: translate(-50%, -70%)'>		
+
 	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image">
-	<form method=post>
+
+	<form method=post style='transform: translate(0, 10%)'>
 		<input type=submit value=reset name=back_button>
 		<input type=submit value=download name=download_cut_button>
 	</form>
+	
+	</div>
 
 </body>
+</html>
 
