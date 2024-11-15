@@ -55,7 +55,13 @@ def download_file(name):
 
     path = UPLOAD_FOLDER + '/images/' + name
     i = Image.open(path)
-    i = ImageOps.contain(i, (512, 512))
+
+    if 'changed' not in session:
+        i = ImageOps.contain(i, (512, 512))
+    
+    else:
+        i = ImageOps.contain(i, (256, 256))
+
     i.save(path)
     return render_template('download_image.html', name = name)
 
