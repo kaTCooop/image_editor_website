@@ -37,9 +37,6 @@ def download_file(name):
 
     if 'changed' not in session:
         i = ImageOps.contain(i, (1024, 1024))
-    
-    else:
-        i = ImageOps.contain(i, (512, 512))
 
     i.save(path)
     return render_template('download_image.html', name = name)
@@ -125,7 +122,7 @@ def edit_image(name, cut = 'False'):
                 else:
                     coordinates = (current_point[0], current_point[1], last_point[0], last_point[1])
 
-            img2 = ImageOps.contain(image.crop(coordinates), (512, 512))
+            img2 = image.crop(coordinates)
 
             try:
                 img2.save(new_path)
@@ -179,6 +176,14 @@ def edit_image(name, cut = 'False'):
             new_name = name[:-format_len+1] + '_cut' + '.' +  format
             return send_file(UPLOAD_FOLDER + '/images/' + new_name, as_attachment = True, \
                     mimetype = 'image', download_name = name)
+
+        elif 'bigger_button' in request.form:
+            new_name = name[:-format_len+1] + '_cut' + '.' +  format
+            new_path = UPLOAD_FOLDER + '/images/' + new_name
+            img = Image.open(new_path)
+            img = ImageOps.contain(img, (512, 512))
+            img.save(new_path)
+            return render_template('download_image.html', name=new_name)
 
         else:
             return '''
