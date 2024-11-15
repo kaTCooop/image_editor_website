@@ -36,10 +36,10 @@ def download_file(name):
     i = Image.open(path)
 
     if 'changed' not in session:
-        i = ImageOps.contain(i, (512, 512))
+        i = ImageOps.contain(i, (1024, 1024))
     
     else:
-        i = ImageOps.contain(i, (256, 256))
+        i = ImageOps.contain(i, (512, 512))
 
     i.save(path)
     return render_template('download_image.html', name = name)
@@ -49,7 +49,7 @@ def download_file(name):
 def edit_image(name, cut = 'False'):
     path = UPLOAD_FOLDER + '/images/' + name
     i = Image.open(path)
-    image = ImageOps.contain(i, (512, 512))
+    image = ImageOps.contain(i, (1024, 1024))
     format = i.format.lower()
     format_len = len(format) + 1
 
