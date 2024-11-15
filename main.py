@@ -233,17 +233,19 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'images' ,filename))
             return redirect(url_for('edit_image', name=filename))
     
-    return '''
-        <!doctype html>
-        <body bgcolor=#000000 text=white>
-        <title>Upload new File</title>
-        <h1>Upload new File</h1>
-        <form method=post enctype=multipart/form-data>
-            <input type=file name=file>
-            <input type=submit value=Upload>
-        </form>
-        </body>
-        '''
+    return render_template('upload.html')
+        
+'''
+<!doctype html>
+<body bgcolor=#000000 text=white>
+<title>Upload new File</title>
+<h1>Upload new File</h1>
+<form method=post enctype=multipart/form-data>
+    <input type=file name=file>
+    <input type=submit value=Upload>
+</form>
+</body>
+'''
 
 @app.route('/')
 def hello_world():

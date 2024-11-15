@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href='{{ url_for('static', filename='css/buttons.css') }}'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
+<body bgcolor=#000000 text=white>
+
+	<title>Upload new File</title>
+	
+	<div style='text-align: center; transform: translate(0, 200%)'>
+	<h1>Upload new File</h1>
+	<button id=b class=glow-on-hover type=button onclick="">SELECT</button>
+	</div>
+
+	<form method=post enctype=multipart/form-data>
+		<input id=theFileInput type=file name=file style='display: none' disabled>
+		<input id=theSubmit type=submit value=Upload style='display: none' disabled>
+	</form>
+	
+	<script>
+		$('#b').click(function() {
+		
+		$('#theFileInput').prop('disabled', '')
+		$('#theSubmit').prop('disabled', '')
+    		
+		$('#theFileInput').click()
+		
+		$("#theFileInput").change(function(e){ $('#theSubmit').click() })	
+		})
+	</script>
+
+</body>
+</html>
+
