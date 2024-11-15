@@ -185,6 +185,9 @@ def edit_image(name, cut = 'False'):
             img.save(new_path)
             return render_template('download_image.html', name=new_name)
 
+        elif 'upload_button' in request.form:
+            return redirect(url_for('upload_file'))
+
         else:
             return '''
             <body bgcolor=#000000 text=white>
