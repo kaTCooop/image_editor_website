@@ -9,12 +9,14 @@
 <body bgcolor=#000000 text=white>
 	
 	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%; transform: translate(-50%, -55%)'>
-
 	<img id=IMG src='{{ url_for('static', filename = 'images/' + name) }}' alt="image">
 	
 	<p style='transform: translate(0, 10%)'> Click twice on the image above to cut it by 2 points </p>
-	
 	</div>
+
+	<script>
+	$('IMG').on('dragstart', false)
+	</script>
 
 </body>
 </html>
