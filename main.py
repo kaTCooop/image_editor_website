@@ -8,7 +8,7 @@ from PIL import Image, ImageOps
 from datetime import timedelta
 
 
-UPLOAD_FOLDER = '/root/projects/image_editor_site/static'
+UPLOAD_FOLDER = '/home/user/projects/image_editor_site/static'
 ALLOWED_EXTENSIONS = {'jpeg', 'png', 'jpg'}
 
 if os.path.isdir(os.path.join(UPLOAD_FOLDER, 'images')) is False:
