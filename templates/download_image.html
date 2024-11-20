@@ -1,16 +1,16 @@
 <!doctype html>
 <html>
 <head>
-        <link rel=stylesheet href='{{ url_for('static', filename='css/buttons.css') }}'>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src={{ url_for('static', filename = 'js/funcs.js') }}></script>
+	<link rel=stylesheet href='{{ url_for('static', filename='css/buttons.css') }}'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src={{ url_for('static', filename = 'js/funcs.js') }}></script>
 </head>
 
 <body bgcolor=#000000 text=white>
-	
-	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%; transform: translate(-50%, -70%)'>		
+
+	<div id=main style='position: absolute; text-align: center; top: 50%; left: 50%; transform: translate(-50%, -70%)'>
 	<img src='{{ url_for('static', filename = 'images/' + name) }}' alt="image">
-	
+
 	<div style='transform: translate(0, 10%)'>
                 <button class=glow-on-hover type=button onclick="post(window.location.href, {'back_button' : 'reset'})">reset</button>
                 <button class=glow-on-hover type=button onclick="post(window.location.href, {'bigger_button' : 'bigger'})">bigger</button>

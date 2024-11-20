@@ -41,8 +41,8 @@ def download_file(name):
     return render_template('download_image.html', name = name)
 
 @app.route('/edit/<name>', methods=['GET', 'POST'])
-@app.route('/edit/<name>/<cut>', methods=['GET', 'POST'])
-def edit_image(name, cut = 'False'):
+@app.route('/edit/<name>/<mode>', methods=['GET', 'POST'])
+def edit_image(name, mode = None):
     path = UPLOAD_FOLDER + '/images/' + name
     i = Image.open(path)
     image = ImageOps.contain(i, (1024, 800))
@@ -57,7 +57,7 @@ def edit_image(name, cut = 'False'):
         print('changed not in session')
         origin_name = name[:-format_len] + '_origin' + '.' + format
         origin_path = UPLOAD_FOLDER + '/images/' + name[:-format_len] + '_origin' + '.' + format
-        
+
         if os.path.exists(origin_path):
             os.remove(origin_path)
 
@@ -80,39 +80,42 @@ def edit_image(name, cut = 'False'):
                 image.convert('L').save(path)
                 session.modified = True
                 return redirect(url_for('edit_image', name = name))
-            
+
             else:
                 print('greyed in !!!')
                 return redirect(url_for('edit_image', name = name))
 
         elif 'cut_button' in request.form:
-            return redirect(url_for('edit_image', name = name, cut = 'cut'))
-        
+            return redirect(url_for('edit_image', name = name, mode = 'cut'))
+
+        elif 'enhance_button' in request.form:
+            return redirect(url_for('edit_image', name = name, mode = 'enhance'))
+
         # cutting image by 2 points
         elif 'value1' and 'value2' in request.form:
             session['changed'] = True
             session.modified = True
-            
+
             x, y = request.form['value1'].split(';')
             point_1 = x + ';' + y
             x, y = request.form['value2'].split(';')
             point_2 = x + ';' + y
 
             print(point_1 + ' ' + point_2)
-    
+
             new_name = name[:-format_len+1] + '_cut' + '.' +  format
             new_path = UPLOAD_FOLDER + '/images/' + new_name
             last_point = float(point_1.split(';')[0]), float(point_1.split(';')[1])
             current_point = float(point_2.split(';')[0]), float(point_2.split(';')[1])
 
             if last_point[1] < current_point[1]:
-                
+
                 if last_point[0] < current_point[0]:
                     coordinates = (last_point[0], last_point[1], current_point[0], current_point[1])
 
                 else:
                     coordinates = (current_point[0], last_point[1], last_point[0], current_point[1])
-            
+
             else:
 
                 if last_point[0] < current_point[0]:
@@ -125,16 +128,16 @@ def edit_image(name, cut = 'False'):
 
             try:
                 img2.save(new_path)
-            
+
             except ValueError:
                 return '<body bgcolor=#000000 text=white>Empty image</body>'
 
             return render_template('download_image.html', name = new_name)
 
         elif 'back_button' in request.form:
-            
+
             if 'changed' in session:
-                
+
                 if os.path.exists(path):
                     os.remove(path)
 
@@ -146,23 +149,23 @@ def edit_image(name, cut = 'False'):
 
             else:
                 return redirect(url_for('edit_image', name=name))
-        
+
         elif 'flip_button' in request.form:
             session['changed'] = True
             session.modified = True
-            
+
             img2 = image.rotate(180)
             img2.save(path)
-            
+
             return redirect(url_for('edit_image', name=name))
 
         elif 'mirror_button' in request.form:
             session['changed'] = True
             session.modified = True
-            
+
             img2 = ImageOps.mirror(image)
             img2.save(path)
-            
+
             return redirect(url_for('edit_image', name=name))
 
         elif 'download_button' in request.form:
@@ -193,15 +196,18 @@ def edit_image(name, cut = 'False'):
             <p>Wrong button</p>
             </body>
             '''
-    
+
     image.save(path)
-   
+
    # display cutted image
-    if cut == 'cut':
+    if mode == 'cut':
         print('rendered cut')
-        
+
         return render_template('cut.html', name = name)
-    
+
+    if mode == 'enhance':
+        return render_template('enhance.html', name=name)
+
     # calculating height of our image
     img = Image.open(path)
     width, height = img.size
@@ -211,29 +217,29 @@ def edit_image(name, cut = 'False'):
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        
+
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
 
         file = request.files['file']
-        
+
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        
+
         if file and allowed_file(file.filename):
             session.clear()
             session.modified = True
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'images' ,filename))
             return redirect(url_for('edit_image', name=filename))
-    
+
     return render_template('upload.html')
-        
+
 '''
 <!doctype html>
 <body bgcolor=#000000 text=white>
@@ -252,7 +258,7 @@ def hello_world():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    
+
     if request.method == 'POST':
         return redirect(url_for('get_files', password=request.form['password']))
 
@@ -264,14 +270,14 @@ def get_files(password):
     with open('password.config', 'r') as f:
         local_password = f.readline()[:-1]
         print(local_password)
-    
+
     if password != local_password:
         flash('Wrong password')
         sleep(3)
         return redirect(url_for('admin'))
 
     if request.method == 'POST':
-        
+
         if 'user_input' not in request.form:
             flash('No text part')
             return redirect(request.url)

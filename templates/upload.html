@@ -8,7 +8,7 @@
 <body bgcolor=#000000 text=white>
 
 	<title>Upload new File</title>
-	
+
 	<div style='text-align: center; transform: translate(0, 200%)'>
 	<h1>Upload new File</h1>
 	<button id=b class=glow-on-hover type=button onclick="">SELECT</button>
@@ -18,16 +18,16 @@
 		<input id=theFileInput type=file name=file style='display: none' disabled>
 		<input id=theSubmit type=submit value=Upload style='display: none' disabled>
 	</form>
-	
+
 	<script>
 		$('#b').click(function() {
-		
+
 		$('#theFileInput').prop('disabled', '')
 		$('#theSubmit').prop('disabled', '')
-    		
+
 		$('#theFileInput').click()
-		
-		$("#theFileInput").change(function(){ $('#theSubmit').click() })	
+
+		$("#theFileInput").change(function(){ $('#theSubmit').click() })
 		})
 	</script>
 
