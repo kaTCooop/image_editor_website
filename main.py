@@ -252,6 +252,9 @@ def edit_image(name, mode = None):
             image.save(path)
             return render_template('enhance.html', name=name)
 
+        elif 'return_button' in request.form:
+            return redirect(url_for('edit_image', name=name))
+
         else:
             return '''
             <body bgcolor=#000000 text=white>

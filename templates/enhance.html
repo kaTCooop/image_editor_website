@@ -12,6 +12,7 @@
 	<div style='transform: translate(0, 10%)'>
 
                 <button class=glow-on-hover type=button onclick="post(window.location.href, {'back_button' : 'reset'})">reset</button>
+                <button class=glow-on-hover type=button onclick="post(window.location.href, {'return_button': 'return'})">return</button>
                 <button class=glow-on-hover type=button onclick="post(window.location.href, {'submit_all': 'true',  'submit_contrast' : String($('#conSlide').val()), 'submit_sharpness' : String($('#sharpSlide').val()), 'submit_brightness' : String($('#brightSlide').val()), 'submit_color' : String($('#colorSlide').val())})">submit all</button>
                 <button class=glow-on-hover type=button onclick="post(window.location.href, {'download_button' : 'download'})">download</button>
 
@@ -30,13 +31,13 @@
 
      <div style='transform: translate(0, 80%)'>
      <p><small>brightness</small></p>
-     <input id=brightSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center;  left: 50%; transform: translate(-50%, -80%)'>
+     <input id=brightSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center; left: 50%; transform: translate(-50%, -80%)'>
      <button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=futton onclick="post(window.location.href, {'submit_brightness' : String($('#brightSlide').val())})">submit</button>
      </div>
 
 	  <div style='transform: translate(0, 120%)'>
       <p><small>color balance</small></p>
-      <input id=colorSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align:      center; left: 50%; transform: translate(-50%, -80%)'>
+      <input id=colorSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center; left: 50%; transform: translate(-50%, -80%)'>
       <button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=futton onclick="post(window.location.href, {'submit_color' : String($('#colorSlide').val())})">submit</button>
       </div>
 
