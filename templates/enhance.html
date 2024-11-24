@@ -33,7 +33,13 @@
      <button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=futton onclick="post(window.location.href, {'submit_brightness' : String($('#brightSlide').val()) })">submit</button>
      </div>
 
-	</div>
+	  <div style='transform: translate(0, 120%)'>
+      <p><small>color balance</small></p>
+      <input id=colorSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align:      center; left: 50%; transform: translate(-50%, -80%)'>
+      <button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=futton onclick="post(window.location.href, {'submit_color' : String($('#colorSlide').val()) })">submit</button>
+      </div>
+
+    </div>
 
 	</div>
 </body>

@@ -211,14 +211,23 @@ def edit_image(name, mode = None):
             return render_template('enhance.html', name=name)
 
         elif 'submit_brightness' in request.form:
-             session['changed'] = True
-             session.modified = True
+            session['changed'] = True
+            session.modified = True
 
-             enhancer = ImageEnhance.Brightness(image)
-             factor = float(request.form['submit_brightness']) / 100
-             image = enhancer.enhance(factor)
-             image.save(path)
-             return render_template('enhance.html', name=name)
+            enhancer = ImageEnhance.Brightness(image)
+            factor = float(request.form['submit_brightness']) / 100
+            image = enhancer.enhance(factor)
+            image.save(path)
+            return render_template('enhance.html', name=name)
+
+        elif 'submit_color' in request.form:
+            session['changed'] = True
+            session.modified = True
+            enhancer = ImageEnhance.Color(image)
+            factor = float(request.form['submit_color']) / 100
+            image = enhancer.enhance(factor)
+            image.save(path)
+            return render_template('enhance.html', name=name)
 
         else:
             return '''
