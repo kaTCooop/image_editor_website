@@ -17,16 +17,21 @@
 	</div>
 
 	<div>
-
-	<p>Constrast</p>
+    <p><small>constrast</small></p>
 	<input id=conSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center; left: 50%; transform: translate(-50%, -80%)'>
 	<button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=button onclick="post(window.location.href, {'submit_contrast' : String($('#conSlide').val()) })">submit</button>
 
     <div style='transform: translate(0, 40%)'>
-    <p>Sharpness</p>
+    <p><small>sharpness</small></p>
     <input id=sharpSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center; left: 50%; transform: translate(-50%, -80%)'>
 	<button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=button onclick="post(window.location.href, {'submit_sharpness' : String($('#sharpSlide').val()) })">submit</button>
     </div>
+
+     <div style='transform: translate(0, 80%)'>
+     <p><small>brightness</small></p>
+     <input id=brightSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center;  left: 50%; transform: translate(-50%, -80%)'>
+     <button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=futton onclick="post(window.location.href, {'submit_brightness' : String($('#brightSlide').val()) })">submit</button>
+     </div>
 
 	</div>
 
