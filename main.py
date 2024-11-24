@@ -4,7 +4,7 @@ from flask import Flask, url_for, render_template, request, redirect, flash, ses
 from flask_session import Session
 from werkzeug.utils import secure_filename
 from time import sleep
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageEnhance
 from datetime import timedelta
 
 
@@ -189,6 +189,26 @@ def edit_image(name, mode = None):
 
         elif 'upload_button' in request.form:
             return redirect(url_for('upload_file'))
+
+        elif 'submit_contrast' in request.form:
+            session['changed'] = True
+            session.modified = True
+
+            enhancer = ImageEnhance.Contrast(image)
+            factor = float(request.form['submit_contrast']) / 100
+            image = enhancer.enhance(factor)
+            image.save(path)
+            return render_template('enhance.html', name=name)
+
+        elif 'submit_sharpness' in request.form:
+            session['changed'] = True
+            session.modified = True
+
+            enhancer = ImageEnhance.Sharpness(image)
+            factor = float(request.form['submit_sharpness']) / 100
+            image = enhancer.enhance(factor)
+            image.save(path)
+            return render_template('enhance.html', name=name)
 
         else:
             return '''

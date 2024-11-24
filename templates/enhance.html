@@ -17,12 +17,16 @@
 	</div>
 
 	<div>
-	<p>Constrast</p>
 
-	<div>
+	<p>Constrast</p>
 	<input id=conSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center; left: 50%; transform: translate(-50%, -80%)'>
 	<button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=button onclick="post(window.location.href, {'submit_contrast' : String($('#conSlide').val()) })">submit</button>
-	</div>
+
+    <div style='transform: translate(0, 40%)'>
+    <p>Sharpness</p>
+    <input id=sharpSlide type="range" min="0" max="200" value="100" style='position: absolute; text-align: center; left: 50%; transform: translate(-50%, -80%)'>
+	<button style='position: absolute; transform: translate(90%, -60%)' class=glow-on-hover type=button onclick="post(window.location.href, {'submit_sharpness' : String($('#sharpSlide').val()) })">submit</button>
+    </div>
 
 	</div>
 
