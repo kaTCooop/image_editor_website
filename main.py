@@ -190,6 +190,29 @@ def edit_image(name, mode = None):
         elif 'upload_button' in request.form:
             return redirect(url_for('upload_file'))
 
+        elif 'submit_all' in request.form:
+            session['changed'] = True
+            session.modified = True
+
+            enhancer = ImageEnhance.Contrast(image)
+            factor = float(request.form['submit_contrast']) / 100
+            image = enhancer.enhance(factor)
+
+            enhancer = ImageEnhance.Sharpness(image)
+            factor = float(request.form['submit_sharpness']) / 100
+            image = enhancer.enhance(factor)
+
+            enhancer = ImageEnhance.Brightness(image)
+            factor = float(request.form['submit_brightness']) / 100
+            image = enhancer.enhance(factor)
+
+            enhancer = ImageEnhance.Color(image)
+            factor = float(request.form['submit_color']) / 100
+            image = enhancer.enhance(factor)
+            image.save(path)
+
+            return render_template('enhance.html', name=name)
+
         elif 'submit_contrast' in request.form:
             session['changed'] = True
             session.modified = True
