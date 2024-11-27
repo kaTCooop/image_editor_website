@@ -58,8 +58,8 @@ def edit_image(name, mode = None):
 
     if 'changed' not in session:
         print('changed not in session')
-        origin_name = name[:-format_len] + '_origin' + '.' + format
-        origin_path = UPLOAD_FOLDER + '/images/' + name[:-format_len] + '_origin' + '.' + format
+        origin_name = name[:-format_len+1] + '_origin' + '.' + format
+        origin_path = UPLOAD_FOLDER + '/images/' + origin_name
 
         if os.path.exists(origin_path):
             os.remove(origin_path)
