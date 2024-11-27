@@ -20,7 +20,6 @@ app.secret_key = os.urandom(12)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SESSION_PERMANENT'] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours = 24)
-
 app.config['SESSION_TYPE'] = 'redis'
 
 Session(app)
@@ -43,6 +42,10 @@ def download_file(name):
 @app.route('/edit/<name>', methods=['GET', 'POST'])
 @app.route('/edit/<name>/<mode>', methods=['GET', 'POST'])
 def edit_image(name, mode = None):
+
+    if session.get('name') != name and 'admin' not in session:
+        return redirect(url_for('upload_file'))
+
     path = UPLOAD_FOLDER + '/images/' + name
     i = Image.open(path)
     image = ImageOps.contain(i, (1024, 800))
@@ -143,8 +146,11 @@ def edit_image(name, mode = None):
 
                 origin_image = Image.open(session['origin_path'])
                 origin_image.save(path)
+
                 session.clear()
+                session['name'] = name
                 session.modified = True
+
                 return redirect(url_for('edit_image', name=name))
 
             else:
@@ -298,9 +304,13 @@ def upload_file():
 
         if file and allowed_file(file.filename):
             session.clear()
-            session.modified = True
+
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'images' ,filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'images', filename))
+
+            session['name'] = filename
+            session.modified = True
+
             return redirect(url_for('edit_image', name=filename))
 
     return render_template('upload.html')
@@ -341,7 +351,15 @@ def get_files(password):
         sleep(3)
         return redirect(url_for('admin'))
 
+    else:
+        session['admin'] = True
+
     if request.method == 'POST':
+
+        if 'admin' not in session:
+            flash('Wrong password')
+            sleep(3)
+            return redirect(url_for('admin'))
 
         if 'user_input' not in request.form:
             flash('No text part')
