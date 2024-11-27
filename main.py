@@ -61,9 +61,6 @@ def edit_image(name, mode = None):
         origin_name = name[:-format_len+1] + '_origin' + '.' + format
         origin_path = UPLOAD_FOLDER + '/images/' + origin_name
 
-        if os.path.exists(origin_path):
-            os.remove(origin_path)
-
         image.save(origin_path)
         session['origin_name'] = origin_name
         session['origin_path'] = origin_path
