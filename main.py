@@ -48,7 +48,13 @@ def edit_image(name, mode = None):
 
     path = UPLOAD_FOLDER + '/images/' + name
     i = Image.open(path)
-    image = ImageOps.contain(i, (1024, 800))
+
+    if 'origin' not in session:
+        image = ImageOps.contain(i, (1024, 800))
+
+    else:
+        image = i
+
     format = i.format.lower()
     format_len = len(format) + 1
 
@@ -58,12 +64,12 @@ def edit_image(name, mode = None):
 
     if 'changed' not in session:
         print('changed not in session')
-        origin_name = name[:-format_len+1] + '_origin' + '.' + format
-        origin_path = UPLOAD_FOLDER + '/images/' + origin_name
+        reset_name = name[:-format_len+1] + '_reset' + '.' + format
+        reset_path = UPLOAD_FOLDER + '/images/' + reset_name
 
-        image.save(origin_path)
-        session['origin_name'] = origin_name
-        session['origin_path'] = origin_path
+        image.save(reset_path)
+        session['reset_name'] = reset_name
+        session['reset_path'] = reset_path
         session.modified = True
 
     print(format)
@@ -141,11 +147,17 @@ def edit_image(name, mode = None):
                 if os.path.exists(path):
                     os.remove(path)
 
-                origin_image = Image.open(session['origin_path'])
-                origin_image.save(path)
+                reset_image = Image.open(session['reset_path'])
+                reset_image.save(path)
+
+                origin_name = session['origin_name']
+                origin_path = session['origin_path']
 
                 session.clear()
+
                 session['name'] = name
+                session['origin_name'] = origin_name
+                session['origin_path'] = origin_path
                 session.modified = True
 
                 return redirect(url_for('edit_image', name=name))
@@ -258,6 +270,15 @@ def edit_image(name, mode = None):
         elif 'return_button' in request.form:
             return redirect(url_for('edit_image', name=name))
 
+        elif 'origin_button' in request.form:
+            origin_image = Image.open(session['origin_path'])
+            origin_image.save(path)
+            session['origin'] = True
+            session['changed'] = True
+            session.modified = True
+
+            return redirect(url_for('edit_image', name=name))
+
         else:
             return '''
             <body bgcolor=#000000 text=white>
@@ -303,9 +324,23 @@ def upload_file():
             session.clear()
 
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'images', filename))
+            path = os.path.join(app.config['UPLOAD_FOLDER'], 'images', filename)
+            file.save(path)
 
             session['name'] = filename
+            name = filename
+
+            i = Image.open(path)
+            format = i.format.lower()
+            format_len = len(format) + 1
+
+            origin_name = name[:-format_len+1] + '_origin' + '.' + format
+            origin_path = UPLOAD_FOLDER + '/images/' + origin_name
+
+            i.save(origin_path)
+            session['origin_name'] = origin_name
+            session['origin_path'] = origin_path
+
             session.modified = True
 
             return redirect(url_for('edit_image', name=filename))
