@@ -1,7 +1,6 @@
 import os
 
 os.system('sudo apt-get install -y redis-server')
-os.system('sudo service redis-server start')
 
 modules = ['Flask', 'Pillow', 'flask-session[redis]']
 
