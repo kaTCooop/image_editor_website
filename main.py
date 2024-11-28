@@ -373,5 +373,5 @@ def get_files(password):
         return redirect(url_for('edit_image', name=data))
 
     names = os.listdir(os.path.join(app.static_folder + '/images'))
-    return render_template('list_of_images.html', names=names)
+    return render_template('admin_list_of_images.html', names=names)
 
